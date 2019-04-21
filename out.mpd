@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<MPD xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="urn:mpeg:dash:schema:mpd:2011"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xsi:schemaLocation="urn:mpeg:DASH:schema:MPD:2011 http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-DASH_schema_files/DASH-MPD.xsd"
+  profiles="urn:mpeg:dash:profile:isoff-live:2011"
+  type="dynamic"
+  minimumUpdatePeriod="PT500S"
+  suggestedPresentationDelay="PT6S"
+  availabilityStartTime="2019-04-21T02:20:50.606Z"
+  publishTime="2019-04-21T02:23:02.601Z"
+  timeShiftBufferDepth="PT18.0S"
+  minBufferTime="PT12.0S"
+  availabilityTimeComplete="false">
+  <ProgramInformation>
+	</ProgramInformation>
+  <Period id="0" start="PT0.0S">
+    <AdaptationSet id="0" contentType="video" segmentAlignment="true" bitstreamSwitching="true">
+      <Representation id="0" mimeType="video/mp4" codecs="avc1.64081f" bandwidth="1500000" width="1280" height="720" frameRate="24/1">
+        <SegmentTemplate timescale="1000000" duration="6000000" availabilityTimeOffset="5.958" initialization="init-stream$RepresentationID$.m4s" media="seg-$RepresentationID$-$Number$.m4s" startNumber="1"/>
+      </Representation>
+    </AdaptationSet>
+  </Period>
+</MPD>
+
+<?xml version="1.0" encoding="utf-8"?>
+<MPD xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="urn:mpeg:dash:schema:mpd:2011"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xsi:schemaLocation="urn:mpeg:DASH:schema:MPD:2011 http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-DASH_schema_files/DASH-MPD.xsd"
+	profiles="urn:mpeg:dash:profile:isoff-live:2011"
+	type="dynamic"
+	minimumUpdatePeriod="PT500S"
+	suggestedPresentationDelay="PT6S"
+	availabilityStartTime="2019-04-21T02:20:50.606Z"
+	publishTime="2019-04-21T02:23:02.601Z"
+	timeShiftBufferDepth="PT18.0S"
+	minBufferTime="PT6.0S">
+	<ProgramInformation>
+	</ProgramInformation>
+	<Period start="PT0.0S">
+		<AdaptationSet contentType="video" segmentAlignment="true" bitstreamSwitching="true" frameRate="24/1">
+			<Representation id="0" mimeType="video/mp4" codecs="avc1.64001f" bandwidth="2000000" width="1280" height="720" frameRate="24/1">
+				<SegmentTemplate timescale="1000000" duration="6000000" availabilityTimeOffset="5.958" initialization="init-stream$RepresentationID$.m4s" media="1555736403/chunk-stream_t_$RepresentationID$-$Number%05d$.m4s" startNumber="1">
+				</SegmentTemplate>
+			</Representation>
+		</AdaptationSet>
+	</Period>
+</MPD>
+
