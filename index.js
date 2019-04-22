@@ -97,14 +97,12 @@ app.get('/:filename', async function (req, res, next) {
       await sleep(50)
       continue
     }
-    console.log(filename, 'sending', length, 'chunks')
     idx += length
     const buffer = Buffer.concat(chunks)
     res.write(buffer)
     await sleep(50)
   }
 
-  console.log(filename, 'is done')
   const chunks = cache[filename].chunks.slice(idx)
   const length = chunks.length
   console.log(filename, 'is done, sending last', length, 'chunks')
