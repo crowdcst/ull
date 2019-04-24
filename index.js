@@ -21,7 +21,7 @@ app.put('/:filename', function (req, res, next) {
     }
   }
 
-  if (filename.endsWith('.mpd' || filename.endsWith('.m3u8'))) {
+  if (filename.endsWith('.mpd')) {
     cache[filename] = {
       done: false,
       chunks: []
@@ -60,24 +60,6 @@ app.get('/:filename', async function (req, res, next) {
     res.set('Content-Type', 'application/dash+xml')
   }
 
-  if (filename === 'out.mpd') {
-    console.log('Building file...')
-    const file = Buffer.concat(cache[filename].chunks).toString()
-    const parser = new xml2js.Parser()
-    parser.parseString(file, function (err, result) {
-      if (err) {
-        console.log(err)
-      }
-      result['MPD']['$']['availabilityTimeComplete'] = false
-      const builder = new xml2js.Builder()
-      const xml = builder.buildObject(result)
-      console.log(xml)
-      res.write(xml)
-      res.end()
-    })
-    return
-  }
-
   let idx = 0
 
   const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -86,7 +68,6 @@ app.get('/:filename', async function (req, res, next) {
 
   while (!cache[filename] || !cache[filename].done) {
     if (!cache[filename]) {
-      console.log(filename, 'does not exist, sleeping for 50ms')
       await sleep(50)
       continue
     }
@@ -105,7 +86,6 @@ app.get('/:filename', async function (req, res, next) {
 
   const chunks = cache[filename].chunks.slice(idx)
   const length = chunks.length
-  console.log(filename, 'is done, sending last', length, 'chunks')
   if (length === 0) {
     res.end()
     return
@@ -115,6 +95,6 @@ app.get('/:filename', async function (req, res, next) {
   res.end()
 })
 
-app.listen(4000, function () {
-  console.log('Listening on 4000...')
+app.listen(3104, function () {
+  console.log('Listening on 3104...')
 })

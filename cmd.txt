@@ -1,13 +1,26 @@
-~/ffmpeg/ffmpeg -re -i archive1.mp4 \
-  -filter_complex "[0:v]split=2[tmp360][tmp720]; [tmp360]scale=640x360[s360]; [tmp720]scale=1280x720[s720]" \
-  -preset veryfast -flags +global_header -sc_threshold 0 -r 24 -g 144 -keyint_min 144 -pix_fmt yuv420p -bf 0 -refs 3 -tune zerolatency \
-  -map [s720] -map [s360] \
-  -map 0:a -map 0:a \
-  -c:v:0 libx264 -b:v:0 2000k -profile:v:0 high \
-  -c:a:0 aac -b:a:0 128k -ac 2 \
-  -c:v:1 libx264 -b:v:1 800k -profile:v:1 high \
-  -c:a:1 aac -b:a:1 96k -ac 2 \
-  -f tee \
-  "[method=PUT:seg_duration=6:streaming=1:http_persistent=1:utc_timing_url='https\://time.akamai.com/?iso':index_correction=1:use_timeline=0:media_seg_name='chunk-stream-\$RepresentationID\$-\$Number%05d\$.m4s':init_seg_name='init-stream-\$RepresentationID\$.m4s':window_size=5:extra_window_size=10:remove_at_exit=1:adaptation_sets='id=0,streams=v id=1,streams=a':f=dash]http://localhost:4000/out.mpd|[select=\'v:1,a:1\':f=hls:hls_time=6:hls_segment_filename=\'.segments/1_vs0_%04d.ts\':hls_list_size=10:hls_delete_threshold=20:hls_segment_type=mpegts:hls_base_url=\'segments/\':hls_flags=delete_segments+omit_endlist+temp_file].segments/broadcast_vs0.m3u8|[select=\'v:0,a:0\':f=hls:hls_time=6:hls_segment_filename=\'.segments/1_vs1_%04d.ts\':hls_list_size=10:hls_delete_threshold=20:hls_segment_type=mpegts:hls_base_url=\'segments/\':hls_flags=delete_segments+omit_endlist+temp_file].segments/broadcast_vs1.m3u8"
-
-  
+~/ffmpeg/ffmpeg \
+  -hide_banner \
+  -re \
+  -f lavfi \
+  -i "testsrc2=size=1280x720:rate=24" \
+  -pix_fmt yuv420p \
+  -map 0:v \
+  -c:v libx264 -tune zerolatency -profile:v high -preset veryfast -bf 0 -refs 3 -sc_threshold 0 \
+  -g 144 \
+  -keyint_min 144 \
+  -b:v 800k \
+  -vf "fps=24,drawtext=box=1:fontcolor=black:boxcolor=white:fontsize=100':x=40:y=400:textfile=utils/text.txt" \
+  -method PUT \
+  -seg_duration 6 \
+  -streaming 1 \
+  -http_persistent 1 \
+  -index_correction 1 \
+  -use_timeline 0 \
+  -media_seg_name 'chunk-stream-$RepresentationID$-$Number%05d$.m4s' \
+  -init_seg_name 'init-stream-$RepresentationID$.m4s' \
+  -window_size 5 \
+  -extra_window_size 10 \
+  -remove_at_exit 1 \
+  -adaptation_sets "id=0,streams=v id=1,streams=a" \
+  -f dash \
+  http://localhost:3104/out.mpd
