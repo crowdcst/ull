@@ -37,7 +37,7 @@ class UllServer {
       return res.status(200).json({ message: 'stopped' })
     })
 
-    this.server = this.app.listen(4000, () => {
+    this.server = this.app.listen(3104, () => {
       console.log('ULL server listening...')
     })
   }
