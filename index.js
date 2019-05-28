@@ -7,6 +7,7 @@ const config = require('./cmd')
 const CACHE_DURATION = 3000 * 1000
 const TIME_SLEEP_MS = 50
 const MAX_SLEEP_COUNT = 1000 / TIME_SLEEP_MS * 10
+const PORT = 3104
 
 class UllServer {
   start () {
@@ -26,7 +27,7 @@ class UllServer {
         return res.status(200).json({ message: 'already started' })
       }
       this.startTranscoding()
-      return res.status(200).json({ message: 'started' })
+      return res.status(200).json({ message: `started manifest is at http://localhost:${PORT}/manifest.mpd` })
     })
 
     this.app.post('/stop', (req, res, next) => {
@@ -37,8 +38,8 @@ class UllServer {
       return res.status(200).json({ message: 'stopped' })
     })
 
-    this.server = this.app.listen(3104, () => {
-      console.log('ULL server listening...')
+    this.server = this.app.listen(PORT, () => {
+      console.log('ULL server listening... port', PORT, 'POST to /start to start the transcoder')
     })
   }
 
