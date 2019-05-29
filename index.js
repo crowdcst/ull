@@ -91,6 +91,7 @@ class UllServer {
 
           this.setDone(filename)
 
+          console.log('Upload complete', filename)
           if (!this.isPlaylist(filename)) {
             res.end()
           }
@@ -210,6 +211,7 @@ class UllServer {
           res.end()
           return
         }
+        console.log('Download complete', filename)
         const buffer = Buffer.concat(chunks)
         res.write(buffer)
         res.flush()
